@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "RECIPE SHARING PLATFORM",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
