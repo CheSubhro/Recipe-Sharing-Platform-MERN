@@ -2,18 +2,27 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
+import passport from 'passport';
 
 const app = express()
 
-app.use(cors({
-    origin: process.env.CORS_ORIGIN,
-    credentials: true
-}))
+// This will solve CORS Policy Error
+const corsOptions = {
+    // set origin to a specific origin.
+    origin: process.env.FRONTEND_HOST,
+    credentials: true,
+    optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions))
 
 app.use(express.json({limit: "16kb"}))
 app.use(express.urlencoded({extended: true, limit: "16kb"}))
 app.use(express.static("public"))
 app.use(cookieParser())
+
+// Passport Middleware
+app.use(passport.initialize());
 
 
 //routes import
