@@ -3,6 +3,8 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import passport from 'passport';
+import './config/passport-jwt-strategy.js'
+
 
 const app = express()
 
@@ -26,11 +28,11 @@ app.use(passport.initialize());
 
 
 //routes import
-import userRouter from './routes/user.routes.js'
+// import userRouter from './routes/user.routes.js'
 import authRouter from './routes/auth.routes.js'
 
 //routes declaration
-app.use("/api/v1/users", userRouter)
+// app.use("/api/v1/users", userRouter)
 app.use("/api/v1/auth", authRouter)
 
 
