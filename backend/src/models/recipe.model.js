@@ -1,57 +1,86 @@
 
 import mongoose, { Schema } from "mongoose";
 
-// Define the schema for the Recipe
-const recipeSchema = new Schema(
+// Define the schema for the Rating 
+
+const ratingSchema = new Schema(
     {
-        // Username field
-        username: {
-            type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true,
-            index: true
+        // User field
+        user: { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'User', 
+            required: true 
         },
-        // Email field
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true
+        // Rating field
+        rating: { 
+            type: Number, 
+            required: true, 
+            min: 1, 
+            max: 5 
         },
-        // Full name field
-        fullName: {
-            type: String,
-            required: true,
-            trim: true,
-            index: true
+        // Comment field
+        comment: { 
+            type: String 
+        }
+    }, 
+    {
+        timestamps: true // Adds createdAt and updatedAt fields
+    }
+);
+
+// Define the schema for the Comment 
+
+const commentSchema = new Schema(
+    {
+        // User field
+        user: {
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'User', 
+            required: true 
         },
-        // Avatar field (cloudinary URL)
-        avatar: {
-            type: String,
-            required: true
+        // Comment field
+        comment: { 
+            type: String, 
+            required: true 
+        }
+    }, 
+    {
+        timestamps: true // Adds createdAt and updatedAt fields
+    }
+);
+
+// Define the schema for the Recipe
+
+const recipeSchema  = new Schema(
+    {
+        // Title field
+        title: { 
+            type: String, 
+            required: true 
         },
-        // Cover image field (cloudinary URL)
-        coverImage: {
-            type: String
+        // Ingredients field
+        ingredients: { 
+            type: [String], 
+            required: true 
         },
-        // Watch history field (array of Video references)
-        watchHistory: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Video"
-            }
-        ],
-        // Password field (hashed)
-        password: {
-            type: String,
-            required: [true, 'Password is required']
+        // Instructions field
+        instructions: { 
+            type: String, 
+            required: true 
         },
-        // Refresh token field
-        refreshToken: {
-            type: String
+        // Image field
+        image: { 
+            type: String 
+        },
+        // Ratings field
+        ratings: [ratingSchema],
+        // Comments field
+        comments: [commentSchema],
+        //Author Field
+        author: { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'User', 
+            required: true 
         }
     },
     // Additional options

@@ -30,10 +30,12 @@ app.use(passport.initialize());
 //routes import
 // import userRouter from './routes/user.routes.js'
 import authRouter from './routes/auth.routes.js'
+import recipeRouter from './routes/recipe.routes.js'
 
 //routes declaration
 // app.use("/api/v1/users", userRouter)
 app.use("/api/v1/auth", authRouter)
+app.use("/api/v1/recipe", recipeRouter)
 
 
 export { app }
