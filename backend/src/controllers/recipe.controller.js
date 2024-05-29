@@ -172,11 +172,60 @@ const addComment = asyncHandler ( async (req,res) =>{
         );
     }
 
-})    
+})  
+
+const searchRecipes = asyncHandler ( async (req,res) =>{
+
+    try {
+        const { ingredients, title, page = 1, limit = 10 } = req.query;
+    
+        const query = {};
+
+        if (ingredients) {
+            const ingredientsArray = ingredients.split(',').map(ingredient => ingredient.trim());
+            query.ingredients = {
+                $elemMatch: {
+                    $regex: ingredientsArray.join('|'),
+                    $options: 'i'
+                }
+            };
+        }
+
+        if (title) {
+            query.title = { $regex: title, $options: 'i' };
+        }
+
+        // console.log('Query Parameters:', { ingredients, title ,page, limit });
+        // console.log('Constructed Query:', query);
+    
+        const recipes = await Recipe.find(query)
+          .skip((page - 1) * limit)
+          .limit(Number(limit))
+          .exec();
+    
+        const count = await Recipe.countDocuments(query);
+    
+        res.status(HttpStatus.OK).json(
+            new ApiResponse(HttpStatus.OK, {
+                recipes,
+                totalPages: Math.ceil(count / limit),
+                currentPage: Number(page)
+            }, "Recipes fetched successfully")
+        );
+    } catch (error) {
+
+        console.error(error);
+        res.status(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR).json(
+            new ApiResponse(error.statusCode || HttpStatus.INTERNAL_SERVER_ERROR, null, error.message)
+        );
+    }
+
+})
  
 
 export {
     createRecipe,
     addRating,
-    addComment 
+    addComment,
+    searchRecipes 
 }

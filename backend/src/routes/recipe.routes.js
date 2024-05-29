@@ -4,7 +4,7 @@ import { Router } from "express";
 import passport from 'passport'
 import accessTokenAutoRefresh from "../middlewares/accessTokenAutoRefresh.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
-import { createRecipe,addRating,addComment } from "../controllers/recipe.controller.js";
+import { createRecipe,addRating,addComment,searchRecipes } from "../controllers/recipe.controller.js";
 
 
 const router = Router()
@@ -28,6 +28,7 @@ router.route("/comment").post(
     addComment
 );
 
+router.route("/search").get( searchRecipes );
 
 
 export default router
